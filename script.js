@@ -3,18 +3,15 @@ pokemonSelect()
 choicePokemon()
 //Função para incluir os pokemons no select
 function pokemonSelect() {
-
     for (let index = 1; index <= 151; index++) {
-
+        
         var urlPokemon = url + index
 
         $.get(urlPokemon, (data) => {
-
-
+            
             let pokemonName = data.name.charAt(0).toUpperCase() + data.name.slice(1)
 
-             $('#pokemon').append(`<option value="${data.id}">${pokemonName}</option>`)
-
+            $('#pokemon').append(`<option value="${data.id}">${pokemonName}</option>`)
         })  
     }
 }
@@ -26,8 +23,11 @@ function choicePokemon() {
         if ($(e.target).val() == 'null') {
 
             $('#pokemonphoto').html('<img src="Imagens/pokemon-png-logo.webp">')
+
             $('#pokemonName').html('')
+
             $('#typeLetter').html('')
+
             $('#types').html('')
         } else {
 
@@ -40,30 +40,23 @@ function choicePokemon() {
             $.get(pokemon, (data) => {
 
                 $('#pokemonName').html(data.name.charAt(0).toUpperCase() + data.name.slice(1))
-                $('#typeLetter').html('Type:')
-                $('#types').html(getPokemonType(data.types))
 
+                $('#typeLetter').html('Type:')
+                
+                $('#types').html(getPokemonType(data.types))
             })
         }
-
     })
 }
 //Função para alterar o tipo do pokemon
 function getPokemonType(types) {
+    let type = []
 
-    let type
+    $(types).each((index,value)=>{
 
-    if (types.length < 2) {
-
-        type = types[0].type.name.charAt(0).toUpperCase() + types[0].type.name.slice(1)
-
-    } else {
-
-        type = types[0].type.name.charAt(0).toUpperCase() + types[0].type.name.slice(1) + '/' + types[1].type.name.charAt(0).toUpperCase() + types[1].type.name.slice(1)
-
-
-    }
-    return type
+        type[index] = value.type.name.charAt(0).toUpperCase() + value.type.name.slice(1)
+    })
+    return type.join('/')
 }
 //Função para alterar o ID do pokemon para pegar a foto dele
 function treatPokemonId(id) {
@@ -71,21 +64,13 @@ function treatPokemonId(id) {
     if (id < 10) {
 
         id = '00' + id
-
     } else if (id < 100) {
 
         id = '0' + id
-
     } else {
 
         id = id
-
     }
 
     return id
-
-
 }
-
-
-
