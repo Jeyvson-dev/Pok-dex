@@ -4,15 +4,16 @@ choicePokemon()
 //Função para incluir os pokemons no select
 async function pokemonSelect() {
     for (let index = 1; index <= 151; index++) {
-        
+
         var urlPokemon = url + index
+        try {
+            let response = await $.get(urlPokemon)
+            let pokemonName = response.name.charAt(0).toUpperCase() + response.name.slice(1)
 
-        $.get(urlPokemon, (data) => {
-            
-            let pokemonName = data.name.charAt(0).toUpperCase() + data.name.slice(1)
-
-            $('#pokemon').append(`<option value="${data.id}">${pokemonName}</option>`)
-        })  
+            $('#pokemon').append(`<option value="${response.id}">${pokemonName}</option>`)
+        } catch (error) {
+            console.error(`Erro ao buscar o Pokémon de ID ${index}:`, error)
+        }
     }
 }
 //Função para escolher o pokemon no select
@@ -42,7 +43,7 @@ function choicePokemon() {
                 $('#pokemonName').html(data.name.charAt(0).toUpperCase() + data.name.slice(1))
 
                 $('#typeLetter').html('Type:')
-                
+
                 $('#types').html(getPokemonType(data.types))
             })
         }
@@ -52,7 +53,7 @@ function choicePokemon() {
 function getPokemonType(types) {
     let type = []
 
-    $(types).each((index,value)=>{
+    $(types).each((index, value) => {
 
         type[index] = value.type.name.charAt(0).toUpperCase() + value.type.name.slice(1)
     })
