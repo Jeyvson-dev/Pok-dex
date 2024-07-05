@@ -2,7 +2,7 @@ const url = 'https://pokeapi.co/api/v2/pokemon/'
 pokemonSelect()
 choicePokemon()
 //Função para incluir os pokemons no select
-function pokemonSelect() {
+async function pokemonSelect() {
     for (let index = 1; index <= 151; index++) {
         
         var urlPokemon = url + index
